@@ -1,62 +1,124 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>wills</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wills</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
 
+    :root {
+      --md-sys-color-primary: #1a73e8;
+      --md-sys-color-on-surface: #0058be;
+      --md-sys-color-subtext: #4a5e89;
+    }
+
+    /* Dark Mode Theme Tokens */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --md-sys-color-primary: #a8c7fa;
+        --md-sys-color-on-surface: #d3e3fd;
+        --md-sys-color-subtext: #a8c7fa;
+      }
       body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Google Sans', sans-serif;
+        background-color: #121316;
       }
+    }
 
-      /* Top banner styles */
-      .banner {
-        width: 100%;
-        height: 200px;
-        background-color: #1a73e8; /* Default color if no image is present */
-        object-fit: cover;
-        display: block;
-      }
+    * {
+      box-sizing: border-box;
+    }
 
-      .content {
-        padding: 20px;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Top Banner -->
-    <img src="banner.jpg" alt="Top Banner" class="banner" onerror="this.style.display='none'">
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Google Sans', sans-serif;
+      transition: background-color 0.3s ease;
+    }
 
-    <div class="content">
-   <h1 style="text-align: center; color: #0058be;">Hello, World!</h1>
-     <p style="text-align: center; color: #4a5e89;">Welcome to my website</p>
-    </div>
+    /* Navigation Bar */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+    }
 
-     </div>
-    <style>
-  .moving-color-box {
-    width: 100%;
-    height: 250px;
-    border-radius: 0px; /* Change to 50% for a circle */
-   background: linear-gradient(270deg, #aec6ff, #b2c6f7, #f2afff);
-    background-size: 600% 600%;
-    animation: colorShift 6s ease infinite;
-  }
+    nav a {
+      color: var(--md-sys-color-primary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+    }
 
-  @keyframes colorShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-</style>
+    nav a:hover {
+      text-decoration: underline;
+    }
 
-<div class="moving-color-box"></div>
-    </div>
-       </div>
+    /* Top banner styles */
+    .banner {
+      width: 100%;
+      height: 200px;
+      background-color: var(--md-sys-color-primary);
+      object-fit: cover;
+      display: block;
+    }
 
-  </script>
-  </body>
+    .content {
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--md-sys-color-on-surface);
+      margin-bottom: 8px;
+    }
+
+    p {
+      text-align: center;
+      color: var(--md-sys-color-subtext);
+      margin-top: 0;
+    }
+
+    /* Animated Gradient Box */
+    .moving-color-box {
+      width: 100%;
+      height: 250px;
+      border-radius: 0px;
+      background: linear-gradient(270deg, #aec6ff, #b2c6f7, #f2afff);
+      background-size: 600% 600%;
+      animation: colorShift 6s ease infinite;
+    }
+
+    @keyframes colorShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="changelog.html">Changelog</a>
+  </nav>
+
+  <!-- Top Banner -->
+  <img src="banner.jpg" alt="Top Banner" class="banner" onerror="this.style.display='none'">
+
+  <div class="content">
+    <h1>Hello, World!</h1>
+    <p>Welcome to my website</p>
+  </div>
+
+  <!-- Animated Gradient Section -->
+  <div class="moving-color-box"></div>
+
+</body>
 </html>
