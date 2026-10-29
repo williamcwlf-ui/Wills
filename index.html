@@ -7,22 +7,6 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   
   <style>
-    <style>
-    body {
-      /* Fallback color if background.jpg doesn't load */
-      background-color: #1a73e8; 
-      
-      /* Background image properties */
-      background-image: url('background.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      
-      margin: 0;
-      min-height: 100vh;
-    }
-
     @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
 
     :root {
@@ -52,7 +36,8 @@
       padding: 0;
       font-family: 'Google Sans', sans-serif;
       
-      /* Full background image without overlapping/repeating */
+      /* Fallback color & Full background image */
+      background-color: #1a73e8;
       background-image: url('background.jpg');
       background-size: cover;
       background-position: center;
@@ -166,9 +151,9 @@
 
   <!-- Navigation -->
   <nav>
-    <a href="index">Home</a>
-    <a href="changelog">Changelog</a>
-   <a href="safety">safety</a>
+    <a href="index.html">Home</a>
+    <a href="changelog.html">Changelog</a>
+    <a href="safety.html">Safety</a>
   </nav>
 
   <main class="container">
