@@ -1,4 +1,12 @@
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wills</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <style>
     @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
 
     :root {
@@ -27,7 +35,7 @@
       margin: 0;
       padding: 0;
       width: 100%;
-      height: 100%;
+      min-height: 100%;
     }
 
     body {
@@ -40,7 +48,6 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
       
-      min-height: 100vh;
       color: var(--md-sys-color-on-surface);
     }
 
@@ -90,7 +97,7 @@
       width: 100%;
       height: 220px;
       background-color: var(--md-sys-color-primary);
-      object-fit: cover; /* Fixed from object-type */
+      object-fit: cover;
       display: block;
     }
 
@@ -141,4 +148,66 @@
       color: var(--md-sys-color-subtext);
       font-size: 13px;
     }
-</style>
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="changelog.html">Changelog</a>
+  </nav>
+
+  <main class="container">
+
+    <!-- Card 1: Welcome Header -->
+    <div class="banner-card">
+      <img src="banner.jpg" alt="Top Banner" class="banner" onerror="this.style.display='none'">
+      <div class="content">
+        <h1>Hello, World!</h1>
+        <p>Welcome to my website</p>
+      </div>
+    </div>
+
+    <!-- Card 2: Workplaces -->
+    <div class="banner-card">
+      <div class="content">
+        <h1>My Workplaces</h1>
+        <h2>I have worked at:</h2>
+        <p><strong>Team William Rblx</strong> — CEO</p> 
+      </div>
+    </div>
+
+    <!-- Card 3: Safety Information -->
+    <div class="banner-card">
+      <img src="banner.jpg" alt="Safety Banner" class="banner" onerror="this.style.display='none'">
+      <div class="content">
+        <h1>Safety</h1>
+        <p>To us, safety matters the most, which is why we have loads of docs on Safety.</p>
+        <p style="margin-top: 8px;">If you would like to send some docs on safety, then email us.</p>
+      </div>
+    </div>
+
+    <!-- Card 4: YouTube Audio Embed -->
+    <div class="banner-card">
+      <div class="audio-header">
+        <span class="version-tag">Audio</span>
+        <span class="date">Now Playing</span>
+      </div>
+      <div style="padding: 0 16px 16px;">
+        <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; border-radius: 12px; overflow: hidden;">
+          <iframe 
+            src="https://www.youtube.com/embed/zSnbp0z-FGg?start=1&autoplay=1" 
+            title="YouTube audio player" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>
