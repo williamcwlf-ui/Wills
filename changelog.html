@@ -31,19 +31,24 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       margin: 0;
       padding: 0;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
       font-family: 'Google Sans', sans-serif;
       
-      /* Full background image without overlapping/repeating */
+      /* Background fallback & image configuration */
+      background-color: #1a73e8;
       background-image: url('background.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
       
-      min-height: 100vh;
       color: var(--md-sys-color-on-surface);
     }
 
@@ -133,7 +138,7 @@
 
     .version-tag {
       background: var(--md-sys-color-primary);
-      color: #00008B;
+      color: #ffffff;
       padding: 4px 10px;
       border-radius: 8px;
       font-weight: 500;
@@ -163,34 +168,42 @@
   <nav>
     <a href="index">Home</a>
     <a href="changelog">Changelog</a>
-   <a href="safety">safety</a>
+    <a href="safety">Safety</a>
   </nav>
 
+  <!-- Page Header -->
+  <div class="header-section">
+    <div class="m3-shape"></div>
+    <h1>Changelog</h1>
+  </div>
 
   <main class="container">
+    
+    <!-- v1.1.2 -->
     <article class="update-card">
       <div class="card-header">
         <span class="version-tag">v1.1.2</span>
         <span class="date">29/10/2026</span>
       </div>
       <ul>
-        <li>added music</li>
-        <li>added safety at /safety</li>
+        <li>Added music player</li>
+        <li>Added safety page at /safety</li>
       </ul>
     </article>
 
-  <main class="container">
+    <!-- v1.1.1 -->
     <article class="update-card">
       <div class="card-header">
         <span class="version-tag">v1.1.1</span>
         <span class="date">29/10/2026</span>
       </div>
       <ul>
-        <li>fixed the bg</li>
-        <li>Write your second update point here</li>
+        <li>Fixed the background display</li>
+        <li>Refined card layouts and styling</li>
       </ul>
     </article>
 
+    <!-- v1.1.0 -->
     <article class="update-card">
       <div class="card-header">
         <span class="version-tag">v1.1.0</span>
@@ -203,6 +216,7 @@
       </ul>
     </article>
 
+    <!-- v1.0.0 -->
     <article class="update-card">
       <div class="card-header">
         <span class="version-tag">v1.0.0</span>
