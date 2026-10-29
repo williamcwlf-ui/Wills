@@ -36,12 +36,27 @@
     </div>
 
      </div>
-    <!-- Load Material Web Components via ESM CDN -->
-  <script type="module">
-    import '@material/web/button/filled-button.js';
-    import '@material/web/button/outlined-button.js';
-    import '@material/web/textfield/outlined-text-field.js';
-    import '@material/web/checkbox/checkbox.js';
+    <style>
+  .moving-color-box {
+    width: 250px;
+    height: 250px;
+    border-radius: 24px; /* Change to 50% for a circle */
+    background: linear-gradient(270deg, #6750A4, #D0BCFE, #FFB4AB);
+    background-size: 600% 600%;
+    animation: colorShift 6s ease infinite;
+  }
+
+  @keyframes colorShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+</style>
+
+<div class="moving-color-box"></div>
+    </div>
+       </div>
+
   </script>
   </body>
 </html>
