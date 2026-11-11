@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelog - Material Design 3</title>
+  
+  <!-- Google Fonts: Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Google Material Symbols -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+  <!-- Material Web Components -->
+  <script type="module">
+    import '@material/web/elevation/elevation.js';
+    import '@material/web/progress/circular-progress.js';
+  </script>
+
+  <style>
+    /* Material 3 Dynamic Color Palette */
+    :root {
+      --md-sys-color-primary: #6750A4;
+      --md-sys-color-on-primary: #FFFFFF;
+      --md-sys-color-primary-container: #EADDFF;
+      --md-sys-color-on-primary-container: #21005D;
+      --md-sys-color-surface: #FEF7FF;
+      --md-sys-color-surface-container-low: #F7F2FA;
+      --md-sys-color-surface-container-high: #ECE6F0;
+      --md-sys-color-on-surface: #1D1B20;
+      --md-sys-color-on-surface-variant: #49454F;
+      --md-sys-color-outline-variant: #CAC4D0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--md-sys-color-surface);
+      color: var(--md-sys-color-on-surface);
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Page container */
+    .page-container {
+      width: 100%;
+      max-width: 840px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--md-sys-color-surface-container-low);
+      position: relative;
+    }
+
+    /* Top App Bar */
+    header {
+      height: 64px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: var(--md-sys-color-surface-container-low);
+      border-bottom: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    header .material-symbols-outlined {
+      color: var(--md-sys-color-primary);
+    }
+
+    /* Scrollable Feed Container */
+    .rss-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* M3 Card Layout */
+    .rss-card {
+      position: relative;
+      background-color: #FFFFFF;
+      border-radius: 16px;
+      padding: 20px 24px;
+      border: 1px solid var(--md-sys-color-outline-variant);
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .rss-card:hover {
+      background-color: var(--md-sys-color-surface-container-high);
+    }
+
+    .rss-card h2 {
+      margin: 0 0 6px 0;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .rss-card h2 a {
+      color: var(--md-sys-color-primary);
+      text-decoration: none;
+    }
+
+    .rss-card h2 a:hover {
+      text-decoration: underline;
+    }
+
+    .rss-card .date-chip {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--md-sys-color-on-primary-container);
+      background-color: var(--md-sys-color-primary-container);
+      padding: 4px 10px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .rss-card .description {
+      color: var(--md-sys-color-on-surface-variant);
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* State messages */
+    .state-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 16px;
+      color: var(--md-sys-color-on-surface-variant);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-container">
+    <!-- Top App Bar -->
+    <header>
+      <span class="material-symbols-outlined">rss_feed</span>
+      <h1>Changelog Updates</h1>
+    </header>
+    
+    <!-- Feed items viewport -->
+    <div class="rss-container" id="rss-feed">
+      <div class="state-container">
+        <md-circular-progress indeterminate></md-circular-progress>
+        <span>Loading feed...</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadRSS() {
+      const rssUrl = 'https://starcat.usercue.app/api/changelog/rss';
+      const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.status === 'ok') {
+          const feedContainer = document.getElementById('rss-feed');
+          feedContainer.innerHTML = '';
+
+          data.items.forEach(item => {
+            const pubDate = new Date(item.pubDate).toLocaleDateString(undefined, {
+              year: 'numeric', month: 'short', day: 'numeric'
+            });
+
+            const card = document.createElement('div');
+            card.className = 'rss-card';
+            card.innerHTML = `
+              <md-elevation></md-elevation>
+              <div class="date-chip">${pubDate}</div>
+              <h2><a href="${item.link}" target="_blank">${item.title}</a></h2>
+              <div class="description">${item.description}</div>
+            `;
+            feedContainer.appendChild(card);
+          });
+        } else {
+          showState('Unable to load feed content.');
+        }
+      } catch (error) {
+        showState('Error connecting to the RSS feed.');
+      }
+    }
+
+    function showState(message) {
+      document.getElementById('rss-feed').innerHTML = `
+        <div class="state-container">
+          <span class="material-symbols-outlined" style="font-size: 48px;">error</span>
+          <span>${message}</span>
+        </div>
+      `;
+    }
+
+    loadRSS();
+  </script>
+
+</body>
+</html>
