@@ -6,7 +6,7 @@
   <title>Wills — Blog</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="Wills updates RSS feed" href="https://lumenate.usercue.app/api/changelog/rss">
-  
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
 
@@ -28,9 +28,7 @@
       }
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -64,9 +62,7 @@
     }
 
     nav a:hover,
-    .feed-link:hover {
-      text-decoration: underline;
-    }
+    .feed-link:hover { text-decoration: underline; }
 
     .container {
       max-width: 600px;
@@ -129,9 +125,7 @@
       padding: 16px 20px 0;
     }
 
-    .post-header h2 {
-      margin: 0;
-    }
+    .post-header h2 { margin: 0; }
 
     .date {
       color: var(--md-sys-color-subtext);
@@ -139,17 +133,21 @@
       white-space: nowrap;
     }
 
-    .post-content {
-      padding: 16px 20px 24px;
-    }
+    .post-content { padding: 16px 20px 24px; }
 
-    .post-content p + p {
-      margin-top: 12px;
-    }
+    .post-content p + p { margin-top: 12px; }
 
     .feed-link {
       color: var(--md-sys-color-primary);
       font-weight: 500;
+      text-decoration: none;
+    }
+
+    .loading { text-align: center; }
+
+    .feed-error {
+      padding: 20px;
+      text-align: center;
     }
 
     @media (max-width: 420px) {
@@ -177,20 +175,80 @@
       </div>
     </article>
 
-    <article class="banner-card">
-      <header class="post-header">
-        <h2>Introducing Prism Secondary</h2>
-        <time class="date" datetime="2026-11-21">November 21, 2026</time>
-      </header>
-      <div class="post-content">
-        <p>I'm working on a new Roblox school called Prism Secondary! This is the start of the project, and I'm excited to share more about it as it takes shape.</p>
-        <p>Stay tuned for future updates and details.</p>
-      </div>
-    </article>
+    <section id="feed-posts" aria-live="polite">
+      <article class="banner-card loading">
+        <div class="post-content"><p>Loading blog posts…</p></div>
+      </article>
+    </section>
 
     <p style="text-align: center;">
       <a class="feed-link" href="https://lumenate.usercue.app/api/changelog/rss">Subscribe to updates via RSS</a>
     </p>
   </main>
+
+  <script>
+    const feedUrl = 'https://lumenate.usercue.app/api/changelog/rss';
+    const feedPosts = document.getElementById('feed-posts');
+
+    const escapeHtml = (value) => {
+      const element = document.createElement('div');
+      element.textContent = value || '';
+      return element.innerHTML;
+    };
+
+    async function loadFeed() {
+      try {
+        const response = await fetch(feedUrl, { headers: { 'Accept': 'application/rss+xml, application/xml, text/xml' } });
+        if (!response.ok) throw new Error(`Feed request failed: ${response.status}`);
+
+        const xml = await response.text();
+        const documentXml = new DOMParser().parseFromString(xml, 'application/xml');
+        if (documentXml.querySelector('parsererror')) throw new Error('Feed returned invalid XML');
+
+        const items = [...documentXml.querySelectorAll('item')];
+        if (!items.length) {
+          feedPosts.innerHTML = '<article class="banner-card feed-error"><p>No blog posts are available yet.</p></article>';
+          return;
+        }
+
+        feedPosts.innerHTML = items.map(item => {
+          const title = item.querySelector('title')?.textContent.trim() || 'Untitled post';
+          const link = item.querySelector('link')?.textContent.trim();
+          const description = item.querySelector('description')?.textContent.trim() || '';
+          const pubDate = item.querySelector('pubDate')?.textContent.trim();
+          const date = pubDate ? new Date(pubDate) : null;
+          const dateText = date && !Number.isNaN(date.getTime())
+            ? date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
+            : '';
+          const dateAttribute = date && !Number.isNaN(date.getTime())
+            ? date.toISOString()
+            : '';
+
+          const descriptionHtml = document.createElement('div');
+          descriptionHtml.innerHTML = description;
+
+          return `
+            <article class="banner-card">
+              <header class="post-header">
+                <h2>${link ? `<a class="feed-link" href="${escapeHtml(link)}">${escapeHtml(title)}</a>` : escapeHtml(title)}</h2>
+                ${dateText ? `<time class="date" datetime="${escapeHtml(dateAttribute)}">${escapeHtml(dateText)}</time>` : ''}
+              </header>
+              <div class="post-content">${descriptionHtml.innerHTML}</div>
+            </article>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error(error);
+        feedPosts.innerHTML = `
+          <article class="banner-card feed-error">
+            <p>Couldn't load the RSS posts in this browser.</p>
+            <p><a class="feed-link" href="${feedUrl}">Open the RSS feed</a></p>
+          </article>
+        `;
+      }
+    }
+
+    loadFeed();
+  </script>
 </body>
 </html>
