@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>wills</title>
+  <title>Wills — Blog</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="Wills updates RSS feed" href="https://lumenate.usercue.app/api/changelog/rss">
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
@@ -35,20 +36,16 @@
       margin: 0;
       padding: 0;
       font-family: 'Google Sans', sans-serif;
-      
-      /* Fallback color & Full background image */
       background-color: #1a73e8;
       background-image: url('background.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
-      
       min-height: 100vh;
       color: var(--md-sys-color-on-surface);
     }
 
-    /* Navigation Bar */
     nav {
       display: flex;
       justify-content: center;
@@ -66,11 +63,11 @@
       font-size: 15px;
     }
 
-    nav a:hover {
+    nav a:hover,
+    .feed-link:hover {
       text-decoration: underline;
     }
 
-    /* Main Container */
     .container {
       max-width: 600px;
       margin: 40px auto;
@@ -80,7 +77,6 @@
       gap: 20px;
     }
 
-    /* Card Styling */
     .banner-card {
       background: var(--md-card-bg);
       backdrop-filter: blur(12px);
@@ -122,59 +118,79 @@
       color: var(--md-sys-color-subtext);
       margin: 0;
       font-size: 16px;
+      line-height: 1.6;
     }
 
-    /* Audio Header Tag */
-    .audio-header {
+    .post-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 20px 10px;
+      gap: 12px;
+      padding: 16px 20px 0;
     }
 
-    .version-tag {
-      background: var(--md-sys-color-primary);
-      color: #00008B;
-      padding: 4px 10px;
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: 13px;
+    .post-header h2 {
+      margin: 0;
     }
 
     .date {
       color: var(--md-sys-color-subtext);
       font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .post-content {
+      padding: 16px 20px 24px;
+    }
+
+    .post-content p + p {
+      margin-top: 12px;
+    }
+
+    .feed-link {
+      color: var(--md-sys-color-primary);
+      font-weight: 500;
+    }
+
+    @media (max-width: 420px) {
+      .post-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
-
-  <!-- Navigation -->
-  <nav>
+  <nav aria-label="Main navigation">
     <a href="index">Home</a>
     <a href="changelog">Changelog</a>
     <a href="safety">Safety</a>
-       <a href="blog">Blog</a>
+    <a href="blog">Blog</a>
   </nav>
 
   <main class="container">
-
-    <!-- Card 1: Welcome Header -->
-    <div class="banner-card">
-      <img src="images/PrismSecondary.png" alt="Top Banner" class="banner" onerror="this.style.display='none'">
+    <article class="banner-card">
+      <img src="images/PrismSecondary.png" alt="Prism Secondary" class="banner" onerror="this.style.display='none'">
       <div class="content">
         <h1>NEW SCHOOL</h1>
-        <p>im making a new school on roblox called Prism Secondary</p>
+        <p>I'm making a new school on Roblox called Prism Secondary.</p>
       </div>
-    </div>
+    </article>
 
-    <!-- Card 2: Workplaces -->
+    <article class="banner-card">
+      <header class="post-header">
+        <h2>Introducing Prism Secondary</h2>
+        <time class="date" datetime="2026-11-21">November 21, 2026</time>
+      </header>
+      <div class="post-content">
+        <p>I'm working on a new Roblox school called Prism Secondary! This is the start of the project, and I'm excited to share more about it as it takes shape.</p>
+        <p>Stay tuned for future updates and details.</p>
+      </div>
+    </article>
 
-
-
-    </div>
-
+    <p style="text-align: center;">
+      <a class="feed-link" href="https://lumenate.usercue.app/api/changelog/rss">Subscribe to updates via RSS</a>
+    </p>
   </main>
-
 </body>
 </html>
