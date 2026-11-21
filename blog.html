@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wills — Blog</title>
+  <title>wills</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="alternate" type="application/rss+xml" title="Wills updates RSS feed" href="https://lumenate.usercue.app/api/changelog/rss">
-
+  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
 
@@ -28,7 +27,9 @@
       }
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -61,8 +62,9 @@
       font-size: 15px;
     }
 
-    nav a:hover,
-    .feed-link:hover { text-decoration: underline; }
+    nav a:hover {
+      text-decoration: underline;
+    }
 
     .container {
       max-width: 600px;
@@ -114,52 +116,33 @@
       color: var(--md-sys-color-subtext);
       margin: 0;
       font-size: 16px;
-      line-height: 1.6;
     }
 
-    .post-header {
+    .audio-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      padding: 16px 20px 0;
+      padding: 16px 20px 10px;
     }
 
-    .post-header h2 { margin: 0; }
+    .version-tag {
+      background: var(--md-sys-color-primary);
+      color: #00008B;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 13px;
+    }
 
     .date {
       color: var(--md-sys-color-subtext);
       font-size: 13px;
-      white-space: nowrap;
-    }
-
-    .post-content { padding: 16px 20px 24px; }
-
-    .post-content p + p { margin-top: 12px; }
-
-    .feed-link {
-      color: var(--md-sys-color-primary);
-      font-weight: 500;
-      text-decoration: none;
-    }
-
-    .loading { text-align: center; }
-
-    .feed-error {
-      padding: 20px;
-      text-align: center;
-    }
-
-    @media (max-width: 420px) {
-      .post-header {
-        align-items: flex-start;
-        flex-direction: column;
-      }
     }
   </style>
 </head>
 <body>
-  <nav aria-label="Main navigation">
+
+  <nav>
     <a href="index">Home</a>
     <a href="changelog">Changelog</a>
     <a href="safety">Safety</a>
@@ -167,88 +150,22 @@
   </nav>
 
   <main class="container">
-    <article class="banner-card">
-      <img src="images/PrismSecondary.png" alt="Prism Secondary" class="banner" onerror="this.style.display='none'">
+
+    <div class="banner-card">
+      <img src="images/PrismSecondary.png" alt="Top Banner" class="banner" onerror="this.style.display='none'">
       <div class="content">
         <h1>NEW SCHOOL</h1>
-        <p>I'm making a new school on Roblox called Prism Secondary.</p>
+        <p>im making a new school on roblox called Prism Secondary</p>
       </div>
-    </article>
+    </div>
 
-    <section id="feed-posts" aria-live="polite">
-      <article class="banner-card loading">
-        <div class="post-content"><p>Loading blog posts…</p></div>
-      </article>
-    </section>
+    <div>
 
-    <p style="text-align: center;">
-      <a class="feed-link" href="https://lumenate.usercue.app/api/changelog/rss">Subscribe to updates via RSS</a>
-    </p>
+
+
+    </div>
+
   </main>
 
-  <script>
-    const feedUrl = 'https://lumenate.usercue.app/api/changelog/rss';
-    const feedPosts = document.getElementById('feed-posts');
-
-    const escapeHtml = (value) => {
-      const element = document.createElement('div');
-      element.textContent = value || '';
-      return element.innerHTML;
-    };
-
-    async function loadFeed() {
-      try {
-        const response = await fetch(feedUrl, { headers: { 'Accept': 'application/rss+xml, application/xml, text/xml' } });
-        if (!response.ok) throw new Error(`Feed request failed: ${response.status}`);
-
-        const xml = await response.text();
-        const documentXml = new DOMParser().parseFromString(xml, 'application/xml');
-        if (documentXml.querySelector('parsererror')) throw new Error('Feed returned invalid XML');
-
-        const items = [...documentXml.querySelectorAll('item')];
-        if (!items.length) {
-          feedPosts.innerHTML = '<article class="banner-card feed-error"><p>No blog posts are available yet.</p></article>';
-          return;
-        }
-
-        feedPosts.innerHTML = items.map(item => {
-          const title = item.querySelector('title')?.textContent.trim() || 'Untitled post';
-          const link = item.querySelector('link')?.textContent.trim();
-          const description = item.querySelector('description')?.textContent.trim() || '';
-          const pubDate = item.querySelector('pubDate')?.textContent.trim();
-          const date = pubDate ? new Date(pubDate) : null;
-          const dateText = date && !Number.isNaN(date.getTime())
-            ? date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
-            : '';
-          const dateAttribute = date && !Number.isNaN(date.getTime())
-            ? date.toISOString()
-            : '';
-
-          const descriptionHtml = document.createElement('div');
-          descriptionHtml.innerHTML = description;
-
-          return `
-            <article class="banner-card">
-              <header class="post-header">
-                <h2>${link ? `<a class="feed-link" href="${escapeHtml(link)}">${escapeHtml(title)}</a>` : escapeHtml(title)}</h2>
-                ${dateText ? `<time class="date" datetime="${escapeHtml(dateAttribute)}">${escapeHtml(dateText)}</time>` : ''}
-              </header>
-              <div class="post-content">${descriptionHtml.innerHTML}</div>
-            </article>
-          `;
-        }).join('');
-      } catch (error) {
-        console.error(error);
-        feedPosts.innerHTML = `
-          <article class="banner-card feed-error">
-            <p>Couldn't load the RSS posts in this browser.</p>
-            <p><a class="feed-link" href="${feedUrl}">Open the RSS feed</a></p>
-          </article>
-        `;
-      }
-    }
-
-    loadFeed();
-  </script>
 </body>
 </html>
